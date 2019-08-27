@@ -1,0 +1,68 @@
+{{!-- create a button that submits user input of 
+a burger into the database --}}
+
+<h2>Add a burger</h2>
+<form class="create-form" action="/" method="POST">
+
+  <div class="form-group">
+    <label for="ca">burger Name:</label>
+    <input type="text" id="ca" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="sleepy">devoured</label><br>
+    <input type="radio" name="devoured" value="1" checked> devoured!<br>
+    <input type="radio" name="devoured" value="0"> Not devoured
+  </div>
+
+  <button type="submit">Add burger</button>
+</form>
+
+<h2>available burgers</h2>
+<ul>
+  {{#each burgers}}
+    {{#unless devoured}}
+    <li>
+      {{burger_name}}
+
+      <button class="devoured" data-id="{{id}}">
+        EAT
+      </button>
+
+    </li>    
+    {{/unless}}
+  {{/each}}
+</ul>
+
+<h2>Eaten burgers</h2>
+
+<ul>
+  {{#each burgers}}
+    {{#if devoured}}
+      <li>
+        {{burger_name}}
+
+        
+
+      </li>     
+    {{/if}}
+  {{/each}}
+</ul>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script>
+    $(".devoured").on("click", function(event){
+      
+
+      $.ajax({
+        type: "PUT",
+        url: "/",
+        data: {id:$(this).attr("data-id")}
+      }).then(function(){
+        location.reload()
+      })
+    })
+  </script>
